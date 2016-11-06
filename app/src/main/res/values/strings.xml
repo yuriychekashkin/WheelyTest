@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">WheelyTest</string>
     <string name="title_activity_maps">Map</string>
+    <string name="title_activity_login">Login</string>
+    <string name="button_connect">Connect</string>
+
+    <!-- Web Socket -->
+    <string name="websocket_url">wss://mini­mdt.wheely.com?username=%s&amp;password=%s</string>
 </resources>
