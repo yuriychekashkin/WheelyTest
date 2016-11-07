@@ -7,5 +7,6 @@
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_login">Login</string>
     <string name="button_connect">Connect</string>
-    <string name="connect_error">Подключиться не удалось</string>
+    <string name="connect_error">Error of connection</string>
+    <string name="button_disconnect">Disconnect</string>
 </resources>

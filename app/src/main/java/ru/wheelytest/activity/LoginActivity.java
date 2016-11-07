@@ -79,7 +79,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private void startMapActivity() {
         startActivity(new Intent(this, MapsActivity.class));
-        finish();
     }
 
     private void showConnectError() {

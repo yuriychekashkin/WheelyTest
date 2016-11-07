@@ -16,6 +16,7 @@ import static ru.wheelytest.service.WebSocketService.EXTRA_BROADCAST_GPS_POINTS;
 public class BroadcastSender {
 
     public static final String BROADCAST_ACTION_CONNECT = "BROADCAST_ACTION_CONNECT";
+    public static final String BROADCAST_ACTION_NEW_DATA = "BROADCAST_ACTION_NEW_DATA";
 
     private final Context context;
 
@@ -24,7 +25,7 @@ public class BroadcastSender {
     }
 
     public void sendGpsPointsBroadcast(ArrayList<GpsPoint> gpsPointArrayList) {
-        Intent broadcastIntent = new Intent();
+        Intent broadcastIntent = new Intent(BROADCAST_ACTION_NEW_DATA);
         broadcastIntent.putParcelableArrayListExtra(EXTRA_BROADCAST_GPS_POINTS, gpsPointArrayList);
         context.sendBroadcast(broadcastIntent);
     }
