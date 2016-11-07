@@ -15,6 +15,8 @@ import static ru.wheelytest.service.WebSocketService.EXTRA_BROADCAST_GPS_POINTS;
  */
 public class BroadcastSender {
 
+    public static final String BROADCAST_ACTION_CONNECT = "BROADCAST_ACTION_CONNECT";
+
     private final Context context;
 
     public BroadcastSender(Context context){
@@ -28,7 +30,7 @@ public class BroadcastSender {
     }
 
     public void sendAuthSuccessBroadcast(boolean isAuthSuccess) {
-        Intent broadcastIntent = new Intent();
+        Intent broadcastIntent = new Intent(BROADCAST_ACTION_CONNECT);
         broadcastIntent.putExtra(EXTRA_BROADCAST_AUTH_SUCCESS, isAuthSuccess);
         context.sendBroadcast(broadcastIntent);
     }
