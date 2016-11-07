@@ -14,7 +14,7 @@ import okhttp3.ws.WebSocket;
 import okhttp3.ws.WebSocketCall;
 import okhttp3.ws.WebSocketListener;
 import okio.Buffer;
-import ru.wheelytest.business.WebSocketMessagesConverter;
+import ru.wheelytest.business.serialization.WebSocketMessagesConverter;
 import ru.wheelytest.domain.entity.GpsPoint;
 
 /**

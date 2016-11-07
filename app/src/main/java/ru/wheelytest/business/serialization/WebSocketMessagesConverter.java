@@ -1,4 +1,4 @@
-package ru.wheelytest.business;
+package ru.wheelytest.business.serialization;
 
 import java.util.List;
 

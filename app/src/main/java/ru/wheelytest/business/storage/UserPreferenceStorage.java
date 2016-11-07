@@ -12,8 +12,8 @@ import ru.wheelytest.domain.entity.User;
 public class UserPreferenceStorage implements UserStorage {
 
     private static final String USER_STORAGE_PREFERENCES = "USER_STORAGE_PREFERENCES";
-    private static final String LOGIN_PREFERENCE = "LOGIN_PREFERENCE";
-    private static final String PASSWORD_PREFERENCE = "PASSWORD_PREFERENCE";
+    private static final String PREFERENCE_LOGIN = "PREFERENCE_LOGIN";
+    private static final String PREFERENCE_PASSWORD = "PREFERENCE_PASSWORD";
 
     private final SharedPreferences sharedPreferences;
 
@@ -29,8 +29,8 @@ public class UserPreferenceStorage implements UserStorage {
     @Override
     public User getUser() {
         if (hasUser()) {
-            String login = sharedPreferences.getString(LOGIN_PREFERENCE, null);
-            String password = sharedPreferences.getString(PASSWORD_PREFERENCE, null);
+            String login = sharedPreferences.getString(PREFERENCE_LOGIN, null);
+            String password = sharedPreferences.getString(PREFERENCE_PASSWORD, null);
             return new User(login, password);
         } else {
             return null;
@@ -39,13 +39,18 @@ public class UserPreferenceStorage implements UserStorage {
 
     @Override
     public boolean hasUser() {
-        return sharedPreferences.contains(LOGIN_PREFERENCE) && sharedPreferences.contains(PASSWORD_PREFERENCE);
+        return sharedPreferences.contains(PREFERENCE_LOGIN) && sharedPreferences.contains(PREFERENCE_PASSWORD);
+    }
+
+    @Override
+    public void clear() {
+        sharedPreferences.edit().clear().apply();
     }
 
     public void saveUser(@NonNull String login, @NonNull String password) {
         sharedPreferences.edit()
-                .putString(LOGIN_PREFERENCE, login)
-                .putString(PASSWORD_PREFERENCE, password)
+                .putString(PREFERENCE_LOGIN, login)
+                .putString(PREFERENCE_PASSWORD, password)
                 .apply();
     }
 }

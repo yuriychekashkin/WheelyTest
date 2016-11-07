@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ru.wheelytest.R;
-import ru.wheelytest.business.BroadcastSender;
 import ru.wheelytest.business.storage.UserStorage;
 import ru.wheelytest.domain.entity.GpsPoint;
 import ru.wheelytest.domain.entity.User;

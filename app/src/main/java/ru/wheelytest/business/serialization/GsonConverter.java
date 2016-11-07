@@ -1,4 +1,4 @@
-package ru.wheelytest.business;
+package ru.wheelytest.business.serialization;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

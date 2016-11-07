@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Parcelable;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
@@ -15,11 +14,14 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.util.Collections;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.OnClick;
 import ru.wheelytest.R;
-import ru.wheelytest.business.BroadcastSender;
+import ru.wheelytest.business.storage.UserPreferenceStorage;
+import ru.wheelytest.business.storage.UserStorage;
+import ru.wheelytest.service.BroadcastSender;
 import ru.wheelytest.domain.entity.GpsPoint;
 import ru.wheelytest.service.WebSocketService;
 
@@ -29,6 +31,9 @@ import ru.wheelytest.service.WebSocketService;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mapView;
+
+    private UserStorage userStorage;
+
     private List<GpsPoint> points;
 
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
@@ -36,7 +41,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         @Override
         public void onReceive(Context context, Intent intent) {
             points = intent.getParcelableArrayListExtra(WebSocketService.EXTRA_BROADCAST_GPS_POINTS);
-            if (isMapReady()){
+            if (isMapReady()) {
                 updatePointsView();
             }
         }
@@ -50,6 +55,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         registerNewDataReceiver();
+        userStorage = new UserPreferenceStorage(this);
     }
 
     @Override
@@ -61,9 +67,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mapView = googleMap;
-        if(hasData()){
+        if (hasData()) {
             updatePointsView();
         }
+    }
+
+    @OnClick(R.id.disconnect)
+    public void onDisconnectClick() {
+        unregisterNewDataReceiver();
+        userStorage.clear();
+        finish();
     }
 
     private void updatePointsView() {

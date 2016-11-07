@@ -1,4 +1,4 @@
-package ru.wheelytest.business;
+package ru.wheelytest.service;
 
 import android.content.Context;
 import android.content.Intent;

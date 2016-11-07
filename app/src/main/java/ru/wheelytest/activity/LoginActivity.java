@@ -13,7 +13,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ru.wheelytest.R;
-import ru.wheelytest.business.BroadcastSender;
+import ru.wheelytest.service.BroadcastSender;
 import ru.wheelytest.business.storage.UserPreferenceStorage;
 import ru.wheelytest.business.storage.UserStorage;
 import ru.wheelytest.service.WebSocketService;
