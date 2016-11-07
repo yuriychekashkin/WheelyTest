@@ -65,8 +65,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @OnClick(R.id.connect)
     public void onConnectClick() {
-        Intent serviceIntent = new Intent(this, WebSocketService.class);
-        startService(serviceIntent);
+        WebSocketService.start(this);
     }
 
     private void registerConnectReceiver() {

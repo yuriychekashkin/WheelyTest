@@ -76,6 +76,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onDisconnectClick() {
         unregisterNewDataReceiver();
         userStorage.clear();
+        stopService(new Intent(this, WebSocketService.class));
         finish();
     }
 

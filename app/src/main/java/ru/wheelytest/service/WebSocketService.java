@@ -1,7 +1,9 @@
 package ru.wheelytest.service;
 
 import android.app.IntentService;
+import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.annotation.StringDef;
 
 import java.lang.annotation.Retention;
@@ -29,14 +31,18 @@ public class WebSocketService extends IntentService implements WebSocketManager.
     public static final String SERVICE_ACTION_START = "SERVICE_ACTION_START";
     public static final String SERVICE_ACTION_STOP = "SERVICE_ACTION_STOP";
 
-
     private static final String WEB_SOCKET_SERVICE = "WEB_SOCKET_SERVICE";
-
 
     private WebSocketManager webSocketManager;
     private UserStorage userStorage;
     private BroadcastSender broadcastSender;
     private User user;
+
+    public static void start(@NonNull Context context) {
+        Intent serviceIntent = new Intent(context, WebSocketService.class);
+        serviceIntent.setFlags(START_FLAG_RETRY);
+        context.startService(serviceIntent);
+    }
 
     public WebSocketService() {
         super(WEB_SOCKET_SERVICE);
@@ -83,13 +89,11 @@ public class WebSocketService extends IntentService implements WebSocketManager.
             case SERVICE_ACTION_STOP:
                 webSocketManager.disconnect();
 
-            default:
-                throw new IllegalArgumentException("Unknown type of service action. Use WebSocketService.ServiceActions");
         }
     }
 
-
     @Retention(RetentionPolicy.SOURCE)
     @StringDef({SERVICE_ACTION_START, SERVICE_ACTION_STOP})
-    public @interface ServiceActions {}
+    public @interface ServiceActions {
+    }
 }
