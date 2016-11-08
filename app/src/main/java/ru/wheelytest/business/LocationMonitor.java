@@ -16,27 +16,41 @@ import ru.wheelytest.domain.entity.GpsPoint;
  */
 public class LocationMonitor {
 
-    private static final long TIMER_PERIOD = TimeUnit.MINUTES.toMillis(1);
+    private static final long TIMER_PERIOD = TimeUnit.SECONDS.toMillis(3);//.MINUTES.toMillis(1);
     private static final long TIMER_FIRST_DELAY = 0;
 
     private final LocationManager locationManager;
-    private final Timer timer;
+    private Timer timer;
 
     private LocationListener locationListener;
 
     public LocationMonitor(@NonNull Context context) {
         locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-        timer = new Timer();
     }
 
-    public void start(@NonNull LocationListener locationListener){
+    public void start(@NonNull LocationListener locationListener) {
         this.locationListener = locationListener;
-        timer.schedule(new UpdateLocationTask(), TIMER_FIRST_DELAY, TIMER_PERIOD);
+        if (timer == null) {
+            timer = new Timer();
+            timer.schedule(new UpdateLocationTask(), TIMER_FIRST_DELAY, TIMER_PERIOD);
+        }
     }
 
-    public void stop(){
+    public void stop() {
         locationListener = null;
-        timer.cancel();
+        tryCancelTimer();
+    }
+
+    private void tryCancelTimer() {
+        if (timer != null) {
+            try {
+                timer.cancel();
+                timer.purge();
+                timer = null;
+            } catch (Exception e) {
+                // do nothing - only try
+            }
+        }
     }
 
     @SuppressWarnings("MissingPermission")

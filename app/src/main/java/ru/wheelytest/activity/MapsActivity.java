@@ -69,6 +69,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mapView = googleMap;
+        mapView.animateCamera(CameraUpdateFactory.zoomTo(8));
         if (hasData()) {
             updatePointsView();
         }

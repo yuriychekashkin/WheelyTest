@@ -7,10 +7,12 @@ import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import ru.wheelytest.business.LocationMonitor;
-import ru.wheelytest.service.BroadcastSender;
+import ru.wheelytest.business.network.RPCManager;
+import ru.wheelytest.business.network.WebSocketManager;
 import ru.wheelytest.business.serialization.GsonConverter;
 import ru.wheelytest.business.storage.UserPreferenceStorage;
-import ru.wheelytest.service.WebSocketManager;
+import ru.wheelytest.service.BroadcastSender;
+import ru.wheelytest.service.EventSender;
 
 /**
  * @author Yuriy Chekashkin
@@ -24,7 +26,7 @@ public class WebSocketServiceConfigurationFactoryImpl implements WebSocketServic
     }
 
     @NonNull
-    public WebSocketManager createWebSocketManager(@NonNull WebSocketManager.WebSocketMessageListener listener) {
+    public RPCManager createWebSocketManager(@NonNull RPCManager.WebSocketMessageListener listener) {
         return new WebSocketManager(createHttpClient(), createMessagesConverter(), listener);
     }
 
@@ -41,7 +43,7 @@ public class WebSocketServiceConfigurationFactoryImpl implements WebSocketServic
     }
 
     @NonNull
-    public BroadcastSender createBroadcastSender() {
+    public EventSender createBroadcastSender() {
         return new BroadcastSender(context);
     }
 

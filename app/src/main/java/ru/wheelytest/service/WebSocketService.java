@@ -1,10 +1,16 @@
 package ru.wheelytest.service;
 
-import android.app.IntentService;
+import android.app.Notification;
+import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.os.IBinder;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.util.Log;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -13,6 +19,7 @@ import java.util.List;
 
 import ru.wheelytest.R;
 import ru.wheelytest.business.LocationMonitor;
+import ru.wheelytest.business.network.RPCManager;
 import ru.wheelytest.business.storage.UserStorage;
 import ru.wheelytest.domain.entity.GpsPoint;
 import ru.wheelytest.domain.entity.User;
@@ -22,7 +29,7 @@ import ru.wheelytest.service.configuration.WebSocketServiceConfigurationFactoryI
 /**
  * @author Yuriy Chekashkin
  */
-public class WebSocketService extends IntentService implements WebSocketManager.WebSocketMessageListener, LocationMonitor.LocationListener {
+public class WebSocketService extends Service implements RPCManager.WebSocketMessageListener, LocationMonitor.LocationListener {
 
     public static final String EXTRA_USER = "EXTRA_USER";
 
@@ -33,14 +40,14 @@ public class WebSocketService extends IntentService implements WebSocketManager.
     public static final int SERVICE_ACTION_START = 101;
     public static final int SERVICE_ACTION_STOP = 102;
 
-    private static final String WEB_SOCKET_SERVICE = "WEB_SOCKET_SERVICE";
-    private static final String TAG = "WebSocketService";
+    public static final String TAG = "WebSocketService";
 
-    private WebSocketManager webSocketManager;
+    private RPCManager webSocketManager;
     private UserStorage userStorage;
-    private BroadcastSender broadcastSender;
-    private User user;
+    private EventSender broadcastSender;
     private LocationMonitor locationMonitor;
+    private ConnectivityManager connectivityManager;
+    private User user;
 
     public static void start(@NonNull Context context, User user) {
         Intent intent = createIntent(context, SERVICE_ACTION_START);
@@ -60,20 +67,49 @@ public class WebSocketService extends IntentService implements WebSocketManager.
         return serviceIntent;
     }
 
-    public WebSocketService() {
-        super(WEB_SOCKET_SERVICE);
-    }
-
-    @SuppressWarnings("MissingPermission")
     @Override
     public void onCreate() {
+        startForeground(101, new Notification());
         super.onCreate();
         WebSocketServiceConfigurationFactory factory = new WebSocketServiceConfigurationFactoryImpl(this);
+//        WebSocketServiceConfigurationFactory factory = new WebSocketServiceConfigurationFactoryImplStub(this);
 
         webSocketManager = factory.createWebSocketManager(this);
         userStorage = factory.createUserStorage();
         broadcastSender = factory.createBroadcastSender();
         locationMonitor = factory.createLocationMonitor();
+        connectivityManager = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        int action = intent.getIntExtra(EXTRA_SERVICE_ACTION, -1);
+        switch (action) {
+            case SERVICE_ACTION_START:
+                user = (User) intent.getSerializableExtra(EXTRA_USER);
+                startMonitoring();
+                break;
+
+            case SERVICE_ACTION_STOP:
+                stopMonitoring();
+                stopSelf();
+                break;
+
+        }
+        return super.onStartCommand(intent, flags, startId);
+    }
+
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
+
+    @Override
+    public void onLocationUpdate(GpsPoint point) {
+        webSocketManager.send(point);
+        Log.d(TAG, "Location updated");
     }
 
     @Override
@@ -94,29 +130,24 @@ public class WebSocketService extends IntentService implements WebSocketManager.
         broadcastSender.sendGpsPointsBroadcast((ArrayList<GpsPoint>) gpsPoints);
     }
 
-    @Override
-    public void onLocationUpdate(GpsPoint point) {
-        webSocketManager.send(point);
+    private void startMonitoring() {
+        String url = getString(R.string.websocket_url, user.getLogin(), user.getPassword());
+        webSocketManager.tryConnect(url);
     }
 
-    @Override
-    protected void onHandleIntent(Intent intent) {
-        int action = intent.getIntExtra(EXTRA_SERVICE_ACTION, -1);
-        switch (action) {
-            case SERVICE_ACTION_START:
-                if (!webSocketManager.isConnected()) {
-                    user = (User) intent.getSerializableExtra(EXTRA_USER);
-                    String url = getString(R.string.websocket_url, user.getLogin(), user.getPassword());
-                    webSocketManager.tryConnect(url);
-                }
-                break;
+    private void stopMonitoring() {
+        locationMonitor.stop();
+        webSocketManager.disconnect();
+    }
 
-            case SERVICE_ACTION_STOP:
-                locationMonitor.stop();
-                webSocketManager.disconnect();
-                stopSelf();
-                break;
-
+    public class ConnectionChangeReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+//            if (connectivityManager.getActiveNetworkInfo().isConnected()) {
+//                startMonitoring();
+//            } else {
+//                stopMonitoring();
+//            }
         }
     }
 

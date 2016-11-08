@@ -23,7 +23,10 @@ public class UserPreferenceStorage implements UserStorage {
 
     @Override
     public void saveUser(User user) {
-        saveUser(user.getLogin(), user.getPassword());
+        sharedPreferences.edit()
+                .putString(PREFERENCE_LOGIN, user.getLogin())
+                .putString(PREFERENCE_PASSWORD, user.getPassword())
+                .apply();
     }
 
     @Override
@@ -45,12 +48,5 @@ public class UserPreferenceStorage implements UserStorage {
     @Override
     public void clear() {
         sharedPreferences.edit().clear().apply();
-    }
-
-    public void saveUser(@NonNull String login, @NonNull String password) {
-        sharedPreferences.edit()
-                .putString(PREFERENCE_LOGIN, login)
-                .putString(PREFERENCE_PASSWORD, password)
-                .apply();
     }
 }

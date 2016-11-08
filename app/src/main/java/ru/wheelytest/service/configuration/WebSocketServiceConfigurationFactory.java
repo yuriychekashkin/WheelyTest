@@ -7,7 +7,8 @@ import ru.wheelytest.business.LocationMonitor;
 import ru.wheelytest.service.BroadcastSender;
 import ru.wheelytest.business.serialization.GsonConverter;
 import ru.wheelytest.business.storage.UserPreferenceStorage;
-import ru.wheelytest.service.WebSocketManager;
+import ru.wheelytest.business.network.RPCManager;
+import ru.wheelytest.service.EventSender;
 
 /**
  * @author Yuriy Chekashkin
@@ -15,7 +16,7 @@ import ru.wheelytest.service.WebSocketManager;
 public interface WebSocketServiceConfigurationFactory {
 
     @NonNull
-    WebSocketManager createWebSocketManager(WebSocketManager.WebSocketMessageListener listener);
+    RPCManager createWebSocketManager(RPCManager.WebSocketMessageListener listener);
 
     @NonNull
     GsonConverter createMessagesConverter();
@@ -24,7 +25,7 @@ public interface WebSocketServiceConfigurationFactory {
     OkHttpClient createHttpClient();
 
     @NonNull
-    BroadcastSender createBroadcastSender();
+    EventSender createBroadcastSender();
 
     @NonNull
     UserPreferenceStorage createUserStorage();

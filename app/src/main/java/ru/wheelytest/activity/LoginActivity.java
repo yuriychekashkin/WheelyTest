@@ -10,6 +10,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -36,6 +38,9 @@ public class LoginActivity extends AppCompatActivity {
     @Bind(R.id.input_password)
     EditText passwordInput;
 
+    @Bind(R.id.progress_container)
+    View progressContainer;
+
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -45,6 +50,7 @@ public class LoginActivity extends AppCompatActivity {
             } else {
                 showConnectError();
             }
+            hideProgress();
         }
     };
 
@@ -86,8 +92,12 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void startService() {
-        WebSocketService.start(this, getUserFromInput());
+    private void showProgress() {
+        progressContainer.setVisibility(View.VISIBLE);
+    }
+
+    private void hideProgress() {
+        progressContainer.setVisibility(View.GONE);
     }
 
     private User getUserFromInput() {
@@ -106,6 +116,11 @@ public class LoginActivity extends AppCompatActivity {
         } catch (Exception e) {
             // receiver not registered - do nothing
         }
+    }
+
+    private void startService() {
+        WebSocketService.start(this, getUserFromInput());
+        showProgress();
     }
 
     private void startMapActivity() {

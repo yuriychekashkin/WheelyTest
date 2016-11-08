@@ -13,7 +13,7 @@ import static ru.wheelytest.service.WebSocketService.EXTRA_BROADCAST_GPS_POINTS;
 /**
  * @author Yuriy Chekashkin
  */
-public class BroadcastSender {
+public class BroadcastSender implements EventSender {
 
     public static final String BROADCAST_ACTION_CONNECT = "BROADCAST_ACTION_CONNECT";
     public static final String BROADCAST_ACTION_NEW_DATA = "BROADCAST_ACTION_NEW_DATA";
