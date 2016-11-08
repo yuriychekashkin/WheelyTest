@@ -1,4 +1,4 @@
-package ru.wheelytest.domain.entity;
+package ru.wheelytest.model.entity;
 
 import android.os.Parcel;
 import android.os.Parcelable;

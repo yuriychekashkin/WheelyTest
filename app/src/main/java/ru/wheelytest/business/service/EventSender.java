@@ -1,8 +1,8 @@
-package ru.wheelytest.service;
+package ru.wheelytest.business.service;
 
 import java.util.ArrayList;
 
-import ru.wheelytest.domain.entity.GpsPoint;
+import ru.wheelytest.model.entity.GpsPoint;
 
 /**
  * @author Yuriy Chekashkin

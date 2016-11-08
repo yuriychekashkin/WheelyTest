@@ -1,4 +1,4 @@
-package ru.wheelytest.service;
+package ru.wheelytest.business.service;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

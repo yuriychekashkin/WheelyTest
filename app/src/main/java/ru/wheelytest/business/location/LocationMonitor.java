@@ -1,4 +1,4 @@
-package ru.wheelytest.business;
+package ru.wheelytest.business.location;
 
 import android.content.Context;
 import android.location.Location;
@@ -9,14 +9,14 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
-import ru.wheelytest.domain.entity.GpsPoint;
+import ru.wheelytest.model.entity.GpsPoint;
 
 /**
  * @author Yuriy Chekashkin
  */
 public class LocationMonitor {
 
-    private static final long TIMER_PERIOD = TimeUnit.SECONDS.toMillis(3);//.MINUTES.toMillis(1);
+    private static final long TIMER_PERIOD = TimeUnit.MINUTES.toMillis(1);
     private static final long TIMER_FIRST_DELAY = 0;
 
     private final LocationManager locationManager;

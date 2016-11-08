@@ -1,11 +1,9 @@
-package ru.wheelytest.service;
+package ru.wheelytest.business.service;
 
 import android.app.Notification;
 import android.app.Service;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
 import android.os.IBinder;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
@@ -18,13 +16,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ru.wheelytest.R;
-import ru.wheelytest.business.LocationMonitor;
+import ru.wheelytest.business.location.LocationMonitor;
 import ru.wheelytest.business.network.RPCManager;
+import ru.wheelytest.business.service.configuration.WebSocketServiceConfigurationFactory;
+import ru.wheelytest.business.service.configuration.WebSocketServiceConfigurationFactoryImpl;
 import ru.wheelytest.business.storage.UserStorage;
-import ru.wheelytest.domain.entity.GpsPoint;
-import ru.wheelytest.domain.entity.User;
-import ru.wheelytest.service.configuration.WebSocketServiceConfigurationFactory;
-import ru.wheelytest.service.configuration.WebSocketServiceConfigurationFactoryImpl;
+import ru.wheelytest.model.entity.GpsPoint;
+import ru.wheelytest.model.entity.User;
 
 /**
  * @author Yuriy Chekashkin
@@ -46,7 +44,6 @@ public class WebSocketService extends Service implements RPCManager.WebSocketMes
     private UserStorage userStorage;
     private EventSender broadcastSender;
     private LocationMonitor locationMonitor;
-    private ConnectivityManager connectivityManager;
     private User user;
 
     public static void start(@NonNull Context context, User user) {
@@ -72,14 +69,11 @@ public class WebSocketService extends Service implements RPCManager.WebSocketMes
         startForeground(101, new Notification());
         super.onCreate();
         WebSocketServiceConfigurationFactory factory = new WebSocketServiceConfigurationFactoryImpl(this);
-//        WebSocketServiceConfigurationFactory factory = new WebSocketServiceConfigurationFactoryImplStub(this);
 
         webSocketManager = factory.createWebSocketManager(this);
         userStorage = factory.createUserStorage();
         broadcastSender = factory.createBroadcastSender();
         locationMonitor = factory.createLocationMonitor();
-        connectivityManager = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
-
     }
 
     @Override
@@ -138,17 +132,6 @@ public class WebSocketService extends Service implements RPCManager.WebSocketMes
     private void stopMonitoring() {
         locationMonitor.stop();
         webSocketManager.disconnect();
-    }
-
-    public class ConnectionChangeReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-//            if (connectivityManager.getActiveNetworkInfo().isConnected()) {
-//                startMonitoring();
-//            } else {
-//                stopMonitoring();
-//            }
-        }
     }
 
     @Retention(RetentionPolicy.SOURCE)

@@ -10,7 +10,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -19,11 +18,11 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ru.wheelytest.R;
-import ru.wheelytest.domain.entity.User;
-import ru.wheelytest.service.BroadcastSender;
+import ru.wheelytest.model.entity.User;
+import ru.wheelytest.business.service.BroadcastSender;
 import ru.wheelytest.business.storage.UserPreferenceStorage;
 import ru.wheelytest.business.storage.UserStorage;
-import ru.wheelytest.service.WebSocketService;
+import ru.wheelytest.business.service.WebSocketService;
 
 /**
  * @author Yuriy Chekashkin
@@ -61,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         UserStorage userStorage = new UserPreferenceStorage(this);
 
-        if (false && userStorage.hasUser()) {
+        if (userStorage.hasUser()) {
             startMapActivity();
         } else {
             registerConnectReceiver();

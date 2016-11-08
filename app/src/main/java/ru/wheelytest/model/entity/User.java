@@ -1,4 +1,4 @@
-package ru.wheelytest.domain.entity;
+package ru.wheelytest.model.entity;
 
 import java.io.Serializable;
 

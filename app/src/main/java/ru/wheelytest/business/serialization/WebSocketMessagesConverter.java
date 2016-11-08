@@ -2,7 +2,7 @@ package ru.wheelytest.business.serialization;
 
 import java.util.List;
 
-import ru.wheelytest.domain.entity.GpsPoint;
+import ru.wheelytest.model.entity.GpsPoint;
 
 /**
  * @author Yuriy Chekashkin

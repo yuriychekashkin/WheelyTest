@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
-import ru.wheelytest.domain.entity.User;
+import ru.wheelytest.model.entity.User;
 
 /**
  * @author Yuriy Chekashkin

@@ -1,14 +1,13 @@
-package ru.wheelytest.service.configuration;
+package ru.wheelytest.business.service.configuration;
 
 import android.support.annotation.NonNull;
 
 import okhttp3.OkHttpClient;
-import ru.wheelytest.business.LocationMonitor;
-import ru.wheelytest.service.BroadcastSender;
+import ru.wheelytest.business.location.LocationMonitor;
 import ru.wheelytest.business.serialization.GsonConverter;
 import ru.wheelytest.business.storage.UserPreferenceStorage;
 import ru.wheelytest.business.network.RPCManager;
-import ru.wheelytest.service.EventSender;
+import ru.wheelytest.business.service.EventSender;
 
 /**
  * @author Yuriy Chekashkin

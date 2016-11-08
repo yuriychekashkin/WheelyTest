@@ -21,9 +21,9 @@ import butterknife.OnClick;
 import ru.wheelytest.R;
 import ru.wheelytest.business.storage.UserPreferenceStorage;
 import ru.wheelytest.business.storage.UserStorage;
-import ru.wheelytest.service.BroadcastSender;
-import ru.wheelytest.domain.entity.GpsPoint;
-import ru.wheelytest.service.WebSocketService;
+import ru.wheelytest.business.service.BroadcastSender;
+import ru.wheelytest.model.entity.GpsPoint;
+import ru.wheelytest.business.service.WebSocketService;
 
 /**
  * @author Yuriy Chekashkin

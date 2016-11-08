@@ -1,14 +1,14 @@
-package ru.wheelytest.service;
+package ru.wheelytest.business.service;
 
 import android.content.Context;
 import android.content.Intent;
 
 import java.util.ArrayList;
 
-import ru.wheelytest.domain.entity.GpsPoint;
+import ru.wheelytest.model.entity.GpsPoint;
 
-import static ru.wheelytest.service.WebSocketService.EXTRA_BROADCAST_AUTH_SUCCESS;
-import static ru.wheelytest.service.WebSocketService.EXTRA_BROADCAST_GPS_POINTS;
+import static ru.wheelytest.business.service.WebSocketService.EXTRA_BROADCAST_AUTH_SUCCESS;
+import static ru.wheelytest.business.service.WebSocketService.EXTRA_BROADCAST_GPS_POINTS;
 
 /**
  * @author Yuriy Chekashkin

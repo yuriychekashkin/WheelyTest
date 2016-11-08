@@ -6,7 +6,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.List;
 
-import ru.wheelytest.domain.entity.GpsPoint;
+import ru.wheelytest.model.entity.GpsPoint;
 
 /**
  * @author Yuriy Chekashkin

@@ -1,4 +1,4 @@
-package ru.wheelytest.service.configuration;
+package ru.wheelytest.business.service.configuration;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -7,18 +7,18 @@ import java.util.ArrayList;
 
 import ru.wheelytest.business.network.RPCManager;
 import ru.wheelytest.business.network.WebSocketManagerStub;
-import ru.wheelytest.domain.entity.GpsPoint;
-import ru.wheelytest.service.BroadcastSender;
-import ru.wheelytest.service.EventSender;
+import ru.wheelytest.model.entity.GpsPoint;
+import ru.wheelytest.business.service.BroadcastSender;
+import ru.wheelytest.business.service.EventSender;
 
 /**
  * @author Yuriy Chekashkin
  */
-public class WebSocketServiceConfigurationFactoryImplStub extends WebSocketServiceConfigurationFactoryImpl {
+public class WebSocketServiceConfigurationFactoryImplDebug extends WebSocketServiceConfigurationFactoryImpl {
 
     private final Context context;
 
-    public WebSocketServiceConfigurationFactoryImplStub(@NonNull Context context) {
+    public WebSocketServiceConfigurationFactoryImplDebug(@NonNull Context context) {
         super(context);
         this.context = context;
     }

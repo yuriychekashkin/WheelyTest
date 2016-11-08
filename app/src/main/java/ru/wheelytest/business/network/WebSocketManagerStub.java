@@ -3,7 +3,7 @@ package ru.wheelytest.business.network;
 import java.util.ArrayList;
 import java.util.List;
 
-import ru.wheelytest.domain.entity.GpsPoint;
+import ru.wheelytest.model.entity.GpsPoint;
 
 /**
  * @author Yuriy Chekashkin

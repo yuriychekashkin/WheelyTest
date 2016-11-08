@@ -7,7 +7,6 @@ import android.util.Log;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -20,8 +19,8 @@ import okhttp3.ws.WebSocketCall;
 import okhttp3.ws.WebSocketListener;
 import okio.Buffer;
 import ru.wheelytest.business.serialization.WebSocketMessagesConverter;
-import ru.wheelytest.domain.entity.GpsPoint;
-import ru.wheelytest.service.WebSocketService;
+import ru.wheelytest.model.entity.GpsPoint;
+import ru.wheelytest.business.service.WebSocketService;
 
 /**
  * @author Yuriy Chekashkin

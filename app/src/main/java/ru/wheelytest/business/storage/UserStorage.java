@@ -1,6 +1,6 @@
 package ru.wheelytest.business.storage;
 
-import ru.wheelytest.domain.entity.User;
+import ru.wheelytest.model.entity.User;
 
 /**
  * @author Yuriy Chekashkin
