@@ -16,7 +16,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ru.wheelytest.R;
 import ru.wheelytest.business.storage.UserPreferenceStorage;
@@ -51,6 +51,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        ButterKnife.bind(this);
+
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -76,7 +78,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onDisconnectClick() {
         unregisterNewDataReceiver();
         userStorage.clear();
-        stopService(new Intent(this, WebSocketService.class));
+        WebSocketService.stop(this);
         finish();
     }
 
@@ -95,7 +97,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private LatLng createLatLngFromGpsPoint(GpsPoint point) {
-        return new LatLng(point.getLat(), point.getLon());
+        return new LatLng(point.getLatitude(), point.getLongitude());
     }
 
     private boolean hasData() {
@@ -111,6 +113,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void unregisterNewDataReceiver() {
-        unregisterReceiver(broadcastReceiver);
+        try {
+            unregisterReceiver(broadcastReceiver);
+        } catch (Exception e){
+            // receiver not registered - do nothing
+        }
     }
 }

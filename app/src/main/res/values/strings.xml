@@ -1,6 +1,6 @@
 <resources>
     <!-- Web Socket -->
-    <string name="websocket_url">wss://mini­mdt.wheely.com?username=%s&amp;password=%s</string>
+    <string name="websocket_url" formatted="false">ws://mini-mdt.wheely.com?username=%s&amp;password=%s</string>
 
     <!-- Texts -->
     <string name="app_name">WheelyTest</string>

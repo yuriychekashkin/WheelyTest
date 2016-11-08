@@ -15,7 +15,8 @@ public class GsonConverter implements WebSocketMessagesConverter {
 
     @Override
     public List<GpsPoint> deserialize(String message) {
-        Type type = new TypeToken<List<GpsPoint>>() {}.getType();
+        Type type = new TypeToken<List<GpsPoint>>() {
+        }.getType();
         return new Gson().fromJson(message, type);
     }
 

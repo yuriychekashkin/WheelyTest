@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
+import ru.wheelytest.business.LocationMonitor;
 import ru.wheelytest.service.BroadcastSender;
 import ru.wheelytest.business.serialization.GsonConverter;
 import ru.wheelytest.business.storage.UserPreferenceStorage;
@@ -47,5 +48,11 @@ public class WebSocketServiceConfigurationFactoryImpl implements WebSocketServic
     @NonNull
     public UserPreferenceStorage createUserStorage() {
         return new UserPreferenceStorage(context);
+    }
+
+    @NonNull
+    @Override
+    public LocationMonitor createLocationMonitor() {
+        return new LocationMonitor(context);
     }
 }

@@ -25,11 +25,11 @@ public class WebSocketManager implements WebSocketListener {
     private static final int NORMAL_CLOSURE = 1000;
     private static final String REASON_CLOSING_CONNECTION = "Closing connection";
 
-    private Request request;
     private final OkHttpClient httpClient;
     private final WebSocketMessageListener socketListener;
-
     private final WebSocketMessagesConverter parser;
+
+    private Request request;
     private WebSocket webSocket;
 
     public WebSocketManager(@NonNull OkHttpClient httpClient, @NonNull WebSocketMessagesConverter messagesConverter, @NonNull WebSocketMessageListener socketListener) {
@@ -38,22 +38,31 @@ public class WebSocketManager implements WebSocketListener {
         this.socketListener = socketListener;
     }
 
-    public void send(GpsPoint gpsPoint) throws Exception {
-        String message = parser.serialize(gpsPoint);
-        webSocket.sendMessage(RequestBody.create(WebSocket.TEXT, message));
+    public void send(GpsPoint gpsPoint) {
+        if (isConnected()) {
+            try {
+                String message = parser.serialize(gpsPoint);
+                webSocket.sendMessage(RequestBody.create(WebSocket.TEXT, message));
+            } catch (IOException e) {
+                connect();
+            }
+        }
     }
 
     public void tryConnect(String webSocketUrl) {
-        request = new Request.Builder()
-                .url(webSocketUrl)
-                .build();
-        connect();
+        if (!isConnected()) {
+            request = new Request.Builder()
+                    .url(webSocketUrl)
+                    .build();
+            connect();
+        }
     }
 
     public void disconnect() {
         try {
-            if (webSocket != null) {
+            if (isConnected()) {
                 webSocket.close(NORMAL_CLOSURE, REASON_CLOSING_CONNECTION);
+                webSocket = null;
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -95,6 +104,10 @@ public class WebSocketManager implements WebSocketListener {
 
     private void connect() {
         WebSocketCall.create(httpClient, request).enqueue(this);
+    }
+
+    public boolean isConnected() {
+        return webSocket != null;
     }
 
     public interface WebSocketMessageListener {

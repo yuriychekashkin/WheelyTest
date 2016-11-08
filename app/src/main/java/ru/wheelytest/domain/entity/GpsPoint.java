@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * @author Yuriy Chekashkin
@@ -24,38 +25,46 @@ public class GpsPoint implements Parcelable {
 
     @Expose(serialize = false, deserialize = true)
     private long id;
-    private float lat;
 
-    private float lon;
+    @SerializedName("lat")
+    private float latitude;
 
-    public GpsPoint(float lat, float lon) {
-        this.lat = lat;
-        this.lon = lon;
+    @SerializedName("lon")
+    private float longitude;
+
+    public GpsPoint(float latitude, float longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
+    public GpsPoint(double latitude, double longitude) {
+        this.latitude = (float) latitude;
+        this.longitude = (float) longitude;
     }
 
     private GpsPoint(Parcel in) {
         id = in.readLong();
-        lat = in.readFloat();
-        lon = in.readFloat();
+        latitude = in.readFloat();
+        longitude = in.readFloat();
     }
 
     public long getId() {
         return id;
     }
 
-    public float getLat() {
-        return lat;
+    public float getLatitude() {
+        return latitude;
     }
 
-    public float getLon() {
-        return lon;
+    public float getLongitude() {
+        return longitude;
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(id);
-        dest.writeFloat(lat);
-        dest.writeFloat(lon);
+        dest.writeFloat(latitude);
+        dest.writeFloat(longitude);
     }
 
     @Override

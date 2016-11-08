@@ -18,6 +18,7 @@
         android:imeOptions="actionNext"
         android:maxLines="1"
         android:singleLine="true"
+        android:text="abc"
         tools:ignore="Deprecated" />
 
     <EditText
@@ -31,6 +32,7 @@
         android:lines="1"
         android:maxLines="1"
         android:singleLine="true"
+        android:text="abc"
         tools:ignore="Deprecated" />
 
     <Button
