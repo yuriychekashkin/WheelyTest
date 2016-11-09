@@ -18,6 +18,8 @@ public class AutostartBroadcastReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Log.d(LOG_TAG, "onReceive autostart " + intent.getAction());
         UserStorage userStorage = new UserPreferenceStorage(context);
-        WebSocketService.start(context, userStorage.getUser());
+        if (userStorage.hasUser()) {
+            WebSocketService.start(context, userStorage.getUser());
+        }
     }
 }
